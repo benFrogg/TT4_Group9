@@ -1,27 +1,27 @@
-//@route POST api/user/login
+//@route POST api/customer/login
 //@description receives email and password, checks if it is in the database, if yes, return JWT Token (JWT Token is required for protected routes/APIs)
 //@access Public
  
  
-//@route POST api/user/createuser               (Create)
+//@route POST api/customer/createuser               (Create)
 //@description receives customer_name,customer_phone,customer_address,password. Balance is populated as 0 and role is populated as user
 //@access Public
  
  
-//@route GET api/user/getcusdetails             (Read)
+//@route GET api/customer/getcusdetails             (Read)
 //@description receives customerId, returns all details about customer
 //@access Protected (role = user or admin)
  
-//@route POST api/user/upgradeRole             (Update)
+//@route POST api/customer/upgradeRole             (Update)
 //@description receives customerId, upgrades role to admin
 //@access Protected (role = admin)
  
-//@route POST api/user/transect               (Update)
+//@route POST api/customer/transect               (Update)
 //@description receives customerId and changes to balance (Can be positive or negative), returns error if balance is negative
 //@access Protected (role = admin)
  
  
-//@route POST api/user/deleteUser            (Delete)
+//@route POST api/customer/deleteUser            (Delete)
 //@description receives customerId and deletes the record
 //@access Protected (role = user or admin)
  
