@@ -2,7 +2,7 @@
 from . import models
 from fastapi import FastAPI
 from .database import engine
-from .routers import posts, users, auth, vote
+from .routers import payments, loans, auth
 from fastapi.middleware.cors import CORSMiddleware
 
 # To deploy on heroku: https://www.youtube.com/watch?v=0sOvCWFmrtA&t=41679s 
@@ -20,10 +20,6 @@ from fastapi.middleware.cors import CORSMiddleware
 
 # To start server: uvicorn app.routerMain:app --reload
 
-
-
-# models.Base.metadata.create_all(bind=engine)
-
 # ------------------------------------------------------------------------------------------
 app = FastAPI()
 
@@ -38,12 +34,11 @@ app.add_middleware(
 )
 
 # Routers 
-app.include_router(posts.router)
-app.include_router(users.router)
+app.include_router(payments.router)
+app.include_router(loans.router)
 app.include_router(auth.router)
-app.include_router(vote.router)
 
 @app.get("/") 
 async def root(): 
-    return {"message": "Welcome to my API"}
+    return {"message": "Welcome to Loans/Payments API"}
 
