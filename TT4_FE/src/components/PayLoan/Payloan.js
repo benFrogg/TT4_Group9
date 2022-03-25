@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import {useState} from 'react';
+// import classes from '../Auth/AuthForm.module.css';
 
 const DUMMY_LOANS = [
   {
@@ -51,9 +53,7 @@ function Payloan(props) {
 */
     const response = await fetch('https://dbs-shawn.herokuapp.com/loans/myloans',
       {
-        method: 'POST',
-        body: JSON.stringify({
-        }),
+        method: 'GET',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
@@ -85,12 +85,44 @@ function Payloan(props) {
 
 
 
+  const [enteredLoan, setEnteredLoan] = useState('');
+  const [enteredAmount, setEnteredAmount] = useState('');
+
+  function LoanChangeHandler(event) {
+    // console.log(event.target.value);
+    setEnteredLoan(event.target.value);
+  }
+
+  function AmountChangeHandler(event) {
+    setEnteredAmount(event.target.value);
+  }
+
+  function submitHandler(event) {
+    console.log(enteredLoan, enteredAmount); 
+  }
 
 
-
+  // dropdown to select loan
+  // input to pay loan amount
+  // button to pay loan
   return (
     <div>
-      PAYLOAN TIME
+      <form onSubmit={submitHandler}>
+        <div >
+          <label htmlFor='selectloan'>Select Loan</label>
+          <select onChange={LoanChangeHandler}>
+            <option>Loan 1</option>
+            <option>Loan 2</option>
+            <option>Loan 3</option>
+
+          </select>
+        </div>
+        <div>
+          <label htmlFor='paybackamount'>Input amount</label>
+          <input type='number' id='paybackamount' required value={enteredAmount} onChange={AmountChangeHandler}/>
+        </div>
+        <button>Pay Loan Amount</button>
+      </form>
     </div>
   )
 }

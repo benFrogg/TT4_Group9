@@ -37,7 +37,6 @@ const StartingPageContent = () => {
 
   return (
     <section className={classes.starting}>
-      <Payloan></Payloan>
       <h1>Welcome on Board!</h1>
       <div className="userDets">
         {/*{
@@ -86,6 +85,7 @@ const StartingPageContent = () => {
               </div>
               <div>
                 <h2>Pay back outstanding loans</h2>
+                  <Payloan></Payloan>
                 <table>
                   <thead>
                     <tr>
