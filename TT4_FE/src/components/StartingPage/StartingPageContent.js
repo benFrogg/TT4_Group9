@@ -20,7 +20,11 @@ const StartingPageContent = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(newLoanAmount)
+
+    axios.post()
   }
+
+
 
   return (
     <section className={classes.starting}>
