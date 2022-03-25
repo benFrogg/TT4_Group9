@@ -1,1 +1,1 @@
-export const API_URL = "http://dbs-shawn.herokuapp.com/docs/"
+export const API_URL = "http://dbs-shawn.herokuapp.com/"

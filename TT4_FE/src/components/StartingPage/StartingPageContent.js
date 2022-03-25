@@ -23,7 +23,7 @@ const StartingPageContent = () => {
     console.log(newLoanAmount)
 
     let newLoanData = {
-      "email": loggedIn.userLogged.email,
+      "token": loggedIn.token,
       "amount": newLoanAmount
     }
 
