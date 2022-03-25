@@ -10,6 +10,13 @@ const AuthForm = () => {
 
   const [isLogin, setIsLogin] = useState(true);
 
+  const {
+    loggedUser, 
+    isLoggedIn,
+    setLoginUserDetails,
+    logoutUser 
+  } = useContext(AuthContext)
+
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
   };
@@ -43,6 +50,11 @@ const AuthForm = () => {
           'Content-Type': 'application/json'
         }
       });
+
+      let loginDets = {
+        enteredEmail: enteredEmail,
+        enteredPassword: enteredPassword
+      }
 
       const data = await response.json();
       console.log(data);

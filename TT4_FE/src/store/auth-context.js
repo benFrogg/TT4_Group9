@@ -1,35 +1,49 @@
-import React, {useState} from 'react'
+import React, { useState } from "react";
 
 const AuthContext = React.createContext({
-    token: '',
-    isLoggedIn: false,
-    login: (token) => {},
-    logout: () => {}
+  token: "",
+  isLoggedIn: false,
+  login: (token) => {},
+  logout: () => {},
 });
 
 // named export
 export const AuthContextProvider = (props) => {
-    const [token, setToken] = useState(null);
-    const userIsLoggedIn = !!token; // !! converts to boolean. if empty string, false. if anything else, true.
+    const user = {
+        email: "",
+        accBal: 0,
+        currLoan: 0,
+        loanHist: "No history now",
+        existingLoan: []
+    }
 
-    function loginHandler(token) {
-        setToken(token);
-    };
+  const [token, setToken] = useState(null);
+  const [ userLogged, setUserLogged ] = useState(user)
+  const userIsLoggedIn = !!token; // !! converts to boolean. if empty string, false. if anything else, true.
 
-    function logoutHandler() {
-        setToken('goodbye');
-    };
+  function loginHandler(token, loggedUser) {
+    setToken(token);
+    setUserLogged(loggedUser);
+  }
 
-    const contextValue = {
-        token: token,
-        isLoggedIn: userIsLoggedIn,
-        login: loginHandler,
-        logout: logoutHandler
-    };
+  function logoutHandler() {
+    setToken("goodbye");
+    setUserLogged(user);
+  }
 
+  const contextValue = {
+      userLogged,
+    token: token,
+    isLoggedIn: userIsLoggedIn,
+    login: loginHandler,
+    logout: logoutHandler,
+  };
 
-    
-    return (<AuthContext.Provider value={contextValue}>{props.children}</AuthContext.Provider>);
+  return (
+    <AuthContext.Provider value={contextValue}>
+      {props.children}
+    </AuthContext.Provider>
+  );
 };
 
 export default AuthContext;
