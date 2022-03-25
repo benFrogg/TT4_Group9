@@ -14,7 +14,8 @@ export const AuthContextProvider = (props) => {
         accBal: 0,
         currLoan: 0,
         loanHist: "No history now",
-        existingLoan: []
+        existingLoan: [],
+        token: token
     }
 
   const [token, setToken] = useState(null);
