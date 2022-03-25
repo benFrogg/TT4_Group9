@@ -1,13 +1,14 @@
 import React, { useContext } from 'react';
 import classes from './StartingPageContent.module.css';
 import AuthContext from '../../store/auth-context';
-import axios from "axios";
+import Payloan from '../PayLoan/Payloan';
 
 const StartingPageContent = () => {
   const loggedIn = useContext(AuthContext)
 
   return (
     <section className={classes.starting}>
+      <Payloan></Payloan>
       <h1>Welcome on Board!</h1>
       <div className="userDets">
         {/*{
