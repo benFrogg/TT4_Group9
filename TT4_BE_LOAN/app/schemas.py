@@ -37,3 +37,14 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     id: Optional[str] = None
     role: str
+
+class Payment(BaseModel):
+    loan_id: int
+    amount: float
+
+class PaymentResponse(BaseModel):
+    id: int
+    amount: float
+    date: datetime
+    customer_id: int
+    loan_id: int

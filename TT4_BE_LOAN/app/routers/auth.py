@@ -16,11 +16,11 @@ router = APIRouter(
 def login(user_creds:OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     access = ""
     if user_creds.username =="admin":
-        token = oauth2.create_access_token(data={"user_id": 2, "role": "admin"})
+        token = oauth2.create_access_token(data={"user_id":int(user_creds.password), "role": "admin"})
         access="admin"
     # create token
     else:
-        token = oauth2.create_access_token(data={"user_id": 1, "role": "user"})
+        token = oauth2.create_access_token(data={"user_id": int(user_creds.password), "role": "user"})
         access="user"
     # return token
     return {"access_token":token, "token_type":"bearer", "access":access}
