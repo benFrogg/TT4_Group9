@@ -15,7 +15,7 @@ const AuthForm = () => {
   };
 
   function emailChangeHandler(event) {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     setEnteredEmail(event.target.value);
   }
 
@@ -28,7 +28,7 @@ const AuthForm = () => {
 
     // optional: check email and password
 
-    console.log(enteredEmail, enteredPassword);
+    console.log('email and password submitted:', enteredEmail, enteredPassword);
 
     if (isLogin) {
       const response = await fetch('http://localhost:8080/login',
