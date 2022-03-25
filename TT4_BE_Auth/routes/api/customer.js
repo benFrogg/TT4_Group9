@@ -51,7 +51,7 @@ router.get('/getcusdetails', async (req, res) => {
 router.post('/upgraderole', async (req, res) => {
   try {
     const { customer_email } = req.body //data is an obj
-    console.log(customer_email)
+
     if (!customer_email) {
       throw Error('customer_email cannot be empty')
     }
@@ -66,6 +66,44 @@ router.post('/upgraderole', async (req, res) => {
       .send(
         `Account with email ${customer_email} upgraded successfully to admin`
       )
+  } catch (error) {
+    res.status(500).send(`Server Error: ${error.message}`)
+    return
+  }
+})
+
+//@route POST api/customer/transect
+//@description receives customer_email and changes to balance (Can be positive or negative), returns error if balance is negative
+//@access Protected (role = admin)
+
+router.post('/transect', async (req, res) => {
+  try {
+    const { customer_email, change } = req.body //data is an obj
+
+    if (!customer_email || !change) {
+      throw Error('"customer_email" or "change" cannot be empty')
+    }
+
+    let cusData = await Customer.findOne({
+      customer_email: customer_email,
+    })
+
+    let newValue = cusData.balance + change
+
+    console.log(newValue)
+    console.log(cusData.balance)
+
+    let doc = await Customer.findOneAndUpdate(
+      { customer_email: customer_email },
+      { balance: newValue }
+    )
+
+    // let doc = await Customer.findOneAndUpdate(
+    //   { customer_email: customer_email },
+    //   { role: 'admin' }
+    // )
+
+    res.status(200).send(`Updated value maybe?`)
   } catch (error) {
     res.status(500).send(`Server Error: ${error.message}`)
     return
