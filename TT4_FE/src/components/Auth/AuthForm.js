@@ -13,6 +13,13 @@ const AuthForm = () => {
 
   const [isLogin, setIsLogin] = useState(true);
 
+  const {
+    loggedUser, 
+    isLoggedIn,
+    setLoginUserDetails,
+    logoutUser 
+  } = useContext(AuthContext)
+
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
   };
@@ -69,8 +76,16 @@ const AuthForm = () => {
         const data = await response.json();
         console.log('login success data:', data);
         authCtx.login(data.token);
+        let loginDets = {
+          enteredEmail: enteredEmail,
+          enteredPassword: enteredPassword
+        }
       } else {
         alert('login authentication failed');
+      }
+      let loginDets = {
+        enteredEmail: enteredEmail,
+        enteredPassword: enteredPassword
       }
 
 
