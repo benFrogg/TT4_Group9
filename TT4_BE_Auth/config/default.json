@@ -1,0 +1,3 @@
+{
+  "mongoURI": "mongodb+srv://dbshackathon25:dbshack12345@cluster0.qhtyv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+}
