@@ -8,6 +8,7 @@ const app = express()
 
 //link routes to app.js
 const user = require('./routes/api/user')
+const customer = require('./routes/api/customer')
 
 // Connect Database
 connectDB()
@@ -23,6 +24,7 @@ app.get('/', (req, res) => res.send('Hello world!'))
 
 //Use Routes
 app.use('/api/user', user)
+app.use('/api/customer', customer)
 
 const port = process.env.PORT || 5000
 
