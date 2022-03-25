@@ -32,6 +32,7 @@ router.post('/login', async (req, res) => {
     //add role payload
 
     let jwtpayload = {
+      exp: 3600,
       customer_id: cus.CustomerId,
       role: cus.role,
     }
@@ -76,7 +77,7 @@ router.post('/createuser', async (req, res) => {
 //@description receives customerId, returns all details about customer
 //@access Protected (role = user or admin)
 
-router.get('/getcusdetails', async (req, res) => {
+router.get('/getcusdetails', auth, async (req, res) => {
   var data = req.body //data is an obj
 
   Customer.findOne({ customer_email: data.customer_email })
@@ -137,11 +138,6 @@ router.post('/transect', async (req, res) => {
       { customer_email: customer_email },
       { balance: newValue }
     )
-
-    // let doc = await Customer.findOneAndUpdate(
-    //   { customer_email: customer_email },
-    //   { role: 'admin' }
-    // )
 
     res.status(200).send(`Updated value maybe?`)
   } catch (error) {
