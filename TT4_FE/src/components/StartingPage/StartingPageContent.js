@@ -3,10 +3,8 @@ import classes from './StartingPageContent.module.css';
 import AuthContext from '../../store/auth-context';
 import axios from "axios";
 import { API_URL } from '../../Constants';
-import { useHistory } from 'react-router-dom';
 
 const StartingPageContent = () => {
-  let history = useHistory();
   const loggedIn = useContext(AuthContext)
   const CPFHist = useRef(null)
   const incomeTaxFile = useRef(null)
@@ -31,6 +29,7 @@ const StartingPageContent = () => {
 
     axios.post(API_URL+"loans/newloan", newLoanData)
   }
+
 
 
 

@@ -1,5 +1,6 @@
 import { useState, useContext} from 'react';
 import AuthContext from '../../store/auth-context';
+import { API_URL } from '../../Constants';
 
 import classes from './AuthForm.module.css';
 
@@ -38,7 +39,7 @@ const AuthForm = () => {
     console.log(enteredEmail, enteredPassword);
 
     if (isLogin) {
-      const response = await fetch('http://localhost:8080/login',
+      const response = await fetch(API_URL+"login",
       {
         method: 'POST',
         body: JSON.stringify({
@@ -50,6 +51,8 @@ const AuthForm = () => {
           'Content-Type': 'application/json'
         }
       });
+
+
 
       let loginDets = {
         enteredEmail: enteredEmail,
@@ -66,7 +69,7 @@ const AuthForm = () => {
       authCtx.login(data.token);
 
     } else { // register user
-      const response = await fetch('http://localhost:8080/register',
+      const response = await fetch(API_URL+'register',
       {
         method: 'POST',
         body: JSON.stringify({
