@@ -63,21 +63,21 @@ const StartingPageContent = () => {
                       <label>Full Name: </label>
                       <br/>
                       <input type="text" />
-                      <br/>
+                      <br/><br/>
                       <label>NRIC: </label>
                       <br/>
                       <input type="text" />
-                      <br/>
+                      <br/><br/>
                       <label>CPF Contribution History Statement (Latest 9 months)</label><br/>
                       <input type="file" id="file" ref={CPFHist} style={{display: 'none'}} />
-                      <button onClick={onClickCPF}>Open file browser</button><br/>
+                      <button onClick={onClickCPF}>Open file browser</button><br/><br/>
                       <label>Latest 1 Year Income Tax Notice of Assessment</label>
                       <input type="file" id="file" ref={incomeTaxFile} style={{display: 'none'}} /><br/>
                       <button onClick={onClickTax}>Open file browser</button>
-                      <br/>
+                      <br/><br/>
                       <label>Loan Amount</label><br/>
                       <input type="text" value={newLoanAmount} onChange={(e) => setNewLoan(e.target.value)}/>
-                      <br/>
+                      <br/><br/>
                       <button type="submit">Submit</button>
                   </form>
               </div>
