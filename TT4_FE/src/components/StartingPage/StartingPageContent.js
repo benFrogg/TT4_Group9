@@ -2,7 +2,7 @@ import React, { useContext, useRef, useState } from 'react';
 import classes from './StartingPageContent.module.css';
 import AuthContext from '../../store/auth-context';
 import axios from "axios";
-import { API_URL } from '../../../Constants';
+import { API_URL } from '../../Constants';
 import { useHistory } from 'react-router-dom';
 
 const StartingPageContent = () => {
@@ -30,15 +30,6 @@ const StartingPageContent = () => {
     }
 
     axios.post(API_URL+"loans/newloan", newLoanData)
-    .then(response => {
-      history.push('/')
-    }).catch (e => {
-      if (e.response) {
-        console.log(e.response)
-      } else if (e.request) {
-        console.log(e.request)
-      }
-    })
   }
 
 
