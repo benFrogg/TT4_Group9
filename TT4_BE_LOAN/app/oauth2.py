@@ -30,10 +30,12 @@ def verify_access_token(token: str, credentials_exception):
         payload = jwt.decode(token, SECRET_KEY)
 
         id:str = payload.get("user_id")
-
+        role:str = payload.get("role")
         if id is None:
             raise credentials_exception
-        token_data = schemas.TokenData(id=id) # if token data has more fields, check here
+        if role is None:
+            raise credentials_exception
+        token_data = schemas.TokenData(id=id, role=role) # if token data has more fields, check here
     except JWTError:
         raise credentials_exception
     return token_data
@@ -42,6 +44,6 @@ def get_current_user(token:str=Depends(oauth2_scheme), db: Session = Depends(dat
     credentials_exception = HTTPException(status_code= status.HTTP_401_UNAUTHORIZED, detail=f"could not validate credentials", headers={"WWW-Authenticate": "Bearer"})
 
     token_data = verify_access_token(token=token, credentials_exception=credentials_exception)
-    user = db.query(models.User).filter(models.User.id==token_data.id).first()
+    user = {"id":token_data.id,"role":token_data.role}
 
     return user
