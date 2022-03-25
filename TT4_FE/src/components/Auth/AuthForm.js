@@ -7,6 +7,9 @@ const AuthForm = () => {
   const authCtx = useContext(AuthContext);
   const [enteredEmail, setEnteredEmail] = useState('');
   const [enteredPassword, setEnteredPassword] = useState('');
+  const [enteredName, setEnteredName] = useState('');
+  const [enteredPhone, setEnteredPhone] = useState('');
+  const [enteredAddress, setEnteredAddress] = useState('');
 
   const [isLogin, setIsLogin] = useState(true);
 
@@ -22,7 +25,7 @@ const AuthForm = () => {
   };
 
   function emailChangeHandler(event) {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     setEnteredEmail(event.target.value);
   }
 
@@ -30,14 +33,32 @@ const AuthForm = () => {
     setEnteredPassword(event.target.value);
   }
 
+  function nameChangeHandler(event) {
+    setEnteredName(event.target.value);
+  }
+
+  function phoneChangeHandler(event) {
+    setEnteredPhone(event.target.value);
+  }
+
+  function addressChangeHandler(event) {
+    setEnteredAddress(event.target.value);
+  }
+
   async function submitHandler(event) {
     event.preventDefault();
 
     // optional: check email and password
 
-    console.log(enteredEmail, enteredPassword);
+    console.log('email and password submitted:', enteredEmail, enteredPassword);
 
     if (isLogin) {
+      //@route POST api/customer/login
+      //@description receives email and password, checks if it is in the database, if yes, return JWT Token (JWT Token is required for protected routes/APIs)
+      //@access Public
+
+      console.log('submit types: login');
+      // const response = await fetch('http://localhost:5000/customer/login',
       const response = await fetch('http://localhost:8080/login',
       {
         method: 'POST',
@@ -51,27 +72,42 @@ const AuthForm = () => {
         }
       });
 
+      if (response.ok) {
+        const data = await response.json();
+        console.log('login success data:', data);
+        authCtx.login(data.token);
+        let loginDets = {
+          enteredEmail: enteredEmail,
+          enteredPassword: enteredPassword
+        }
+      } else {
+        alert('login authentication failed');
+      }
       let loginDets = {
         enteredEmail: enteredEmail,
         enteredPassword: enteredPassword
       }
 
-      const data = await response.json();
-      console.log(data);
-      window.localStorage.setItem('token', data.token);
-      const newtoken = window.localStorage.getItem('token');
-      console.log('token stored', newtoken);
 
-      // change auth state
-      authCtx.login(data.token);
+    } else { // REGISTERING USER // ################
+      console.log('submit types: register');
+      console.log('user details:', enteredName, enteredPhone, enteredAddress);
+      //@route POST api/customer/createuser               (Create)
+      //@description receives customer_name,customer_phone,customer_address,password. Balance is populated as 0 and role is populated as user
+      //@access Public
 
-    } else { // register user
-      const response = await fetch('http://localhost:8080/register',
+      const response = await fetch('http://localhost:5000/api/customer/createuser',
+      // const response = await fetch('http://localhost:8080/register',
       {
         method: 'POST',
         body: JSON.stringify({
-          username: enteredEmail,
-          password: enteredPassword
+          customer_email: enteredEmail,
+          password: enteredPassword,
+
+          customer_name: enteredName,
+          customer_phone: enteredPhone,
+          customer_address: enteredAddress,
+          // balance: 0 // do i need to populate balance?
         }),
         headers: {
           'Accept': 'application/json',
@@ -83,14 +119,17 @@ const AuthForm = () => {
       if (response.ok) {
         //const data = await response.body.getReader().read()
         // get the readable stream and convert it to string
+        /*
         const data = await response.body.getReader().read().then(function(result) {
           return new TextDecoder("utf-8").decode(result.value);
         });
-        // console.log('registed user response: ', data);
         alert(data);
+        */
+        // console.log('registed user response: ', data);
+        alert(response)
       } else {
         // console.log('something went wrong');
-        alert('Authentication Failed');
+        alert('Register Authentication Failed');
       }
 
     }
@@ -109,6 +148,24 @@ const AuthForm = () => {
           <label htmlFor='password'>Your Password</label>
           <input type='password' id='password' required value={enteredPassword} onChange={passwordChangeHandler}/>
         </div>
+        {
+          !isLogin && (
+            <div>
+              <div className={classes.control}>
+                <label htmlFor='name'>Your Name</label>
+                <input type='text' id='name' required value={enteredName} onChange={nameChangeHandler}/>
+              </div>
+              <div className={classes.control}>
+                <label htmlFor='phone'>Your Phone</label>
+                <input type='text' id='phone' required value={enteredPhone} onChange={phoneChangeHandler}/>
+              </div>
+              <div className={classes.control}>
+                <label htmlFor='address'>Your address</label>
+                <input type='text' id='address' required value={enteredAddress} onChange={addressChangeHandler}/>
+              </div>
+            </div>
+          )
+        }
         <div className={classes.actions}>
           <button>{isLogin ? 'Login' : 'Create Account'}</button>
           <button
