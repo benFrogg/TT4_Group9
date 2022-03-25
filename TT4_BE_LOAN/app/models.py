@@ -22,3 +22,4 @@ class Payment(Base):
     loan_id = Column(Integer, ForeignKey("loans.id", ondelete="CASCADE"),  nullable=False)
     amount = Column(sa.Float, nullable=False)
     date = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+    customer_id = Column(Integer, nullable=False)

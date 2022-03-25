@@ -2,7 +2,12 @@ const mongoose = require('mongoose')
 
 const CustSchema = new mongoose.Schema(
   {
-    customerId: {
+    CustomerId: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    customer_email: {
       type: String,
       required: true,
       unique: true,
@@ -35,4 +40,4 @@ const CustSchema = new mongoose.Schema(
   { strict: true }
 )
 
-module.exports = Customer = mongoose.model('customerSchema', CustSchema)
+module.exports = Customer = mongoose.model('customer', CustSchema)
