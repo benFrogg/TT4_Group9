@@ -30,9 +30,12 @@ def create_loan(loan: schemas.LoansCreate, current_user: schemas.Customer = Depe
 # Normal customer gets all their loans
 @router.get("/myloans", response_model=List[schemas.LoansResponse]) 
 def get_all_loans_of_user(current_user: schemas.Customer = Depends(oauth2.get_current_user), db: Session = Depends(get_db), limit:int = 10, skip:int = 0):
-
-    loans = db.query(models.Loan).filter(models.Loan.customer_id == current_user["id"]).limit(limit).offset(skip).all()
-    return loans
+    if current_user["role"]=="user":
+        loans = db.query(models.Loan).filter(models.Loan.customer_id == current_user["id"]).limit(limit).offset(skip).all()
+        return loans
+    else:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                        detail=f"Only Normal users can use this")
 
 # Admin user gets ALL loans
 @router.get("/all_loans", response_model=List[schemas.LoansResponse]) 

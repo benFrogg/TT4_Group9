@@ -35,12 +35,12 @@ def create_payment(payment: schemas.Payment, current_user: schemas.Customer = De
         
         # # call other api here to check for balance
         # access_token = current_user['token']
-        # header = {'Authorization': f'Bearer {access_token}'}
+        # header = {'x-auth-token': f'Bearer {access_token}'}
         # body = {'change':-payment.amount}
         # update_call = requests.post(f'{settings.alvinapiurl}api/customer/transect', headers=header, body=body)
 
         # # if update_call is not an error, that would mean that the user's account has sufficient balance to deduct from and the deduction was successful. At this point, proceed with updating loan and payment tables. Otherwise, would mean that the customer balance is insufficient and throw error here
-        # if update_call.status_code != 200 :
+        # if update_call.text != 'Transection Successful' :
         #     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
         #                         detail=f"Not enough money in customer balance to make payment")
 
@@ -53,9 +53,6 @@ def create_payment(payment: schemas.Payment, current_user: schemas.Customer = De
         if dbquery.amount<payment.amount:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                                 detail=f"Too much payment made for loan id {payment.loan_id}")
-
-        # update the balance with the other api
-        
 
         # updating the loan db
         uloan = vars(dbquery)
