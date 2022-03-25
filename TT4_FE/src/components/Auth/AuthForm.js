@@ -57,8 +57,6 @@ const AuthForm = () => {
       //@description receives email and password, checks if it is in the database, if yes, return JWT Token (JWT Token is required for protected routes/APIs)
       //@access Public
 
-      console.log('submit types: login');
-      // const response = await fetch('http://localhost:5000/customer/login',
       const response = await fetch('http://localhost:8080/login',
       {
         method: 'POST',
@@ -71,6 +69,24 @@ const AuthForm = () => {
           'Content-Type': 'application/json'
         }
       });
+
+      /*
+      console.log('submit types: login');
+      // const response = await fetch('http://localhost:5000/api/customer/login',
+      const response = await fetch('http://localhost:8080/login',
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          username: enteredEmail,
+          // customer_email: enteredEmail,
+          password: enteredPassword
+        }),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      });
+      */
 
       if (response.ok) {
         const data = await response.json();
@@ -96,8 +112,8 @@ const AuthForm = () => {
       //@description receives customer_name,customer_phone,customer_address,password. Balance is populated as 0 and role is populated as user
       //@access Public
 
-      const response = await fetch('http://localhost:5000/api/customer/createuser',
-      // const response = await fetch('http://localhost:8080/register',
+      // const response = await fetch('http://localhost:5000/api/customer/createuser',
+      const response = await fetch('http://localhost:8080/register',
       {
         method: 'POST',
         body: JSON.stringify({
