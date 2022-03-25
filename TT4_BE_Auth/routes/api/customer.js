@@ -36,4 +36,40 @@ router.post('/createuser', async (req, res) => {
 //@description receives customerId, returns all details about customer
 //@access Protected (role = user or admin)
 
+router.get('/getcusdetails', async (req, res) => {
+  var data = req.body //data is an obj
+
+  Customer.findOne({ customer_email: data.customer_email })
+    .then((foundCusDetails) => res.json(foundCusDetails))
+    .catch((error) => res.status(500).send(`Error:${error} `))
+})
+
+//@route POST api/customer/upgradeRole             (Update)
+//@description receives customer_email, upgrades role to admin
+//@access Protected (role = admin)
+
+router.post('/upgraderole', async (req, res) => {
+  try {
+    const { customer_email } = req.body //data is an obj
+    console.log(customer_email)
+    if (!customer_email) {
+      throw Error('customer_email cannot be empty')
+    }
+
+    let doc = await Customer.findOneAndUpdate(
+      { customer_email: customer_email },
+      { role: 'admin' }
+    )
+
+    res
+      .status(200)
+      .send(
+        `Account with email ${customer_email} upgraded successfully to admin`
+      )
+  } catch (error) {
+    res.status(500).send(`Server Error: ${error.message}`)
+    return
+  }
+})
+
 module.exports = router
