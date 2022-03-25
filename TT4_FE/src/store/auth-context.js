@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { API_URL } from '../Constants';
 
 const AuthContext = React.createContext({
   token: "",

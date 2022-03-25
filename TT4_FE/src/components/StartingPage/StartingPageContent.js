@@ -41,7 +41,7 @@ const StartingPageContent = () => {
           loggedIn.isLoggedIn ? 
         (*/}
             <div className="accountDets">
-              <table className="accountTable" style={{border: "2px solid green", alignItems: "center"}}>
+              <table className="accountTable" style={{border: "2px solid green", alignItems: "center", marginLeft: "auto", marginRight: "auto", width: "600px"}}>
                 <thead>
                   <tr>
                     <th>Account Balance</th>
