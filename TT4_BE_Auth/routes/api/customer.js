@@ -5,6 +5,7 @@ const async = require('async')
 const axios = require('axios')
 const jwt = require('jsonwebtoken')
 const auth = require('../../middleware/auth')
+const jwt_decode = require('jwt-decode')
 
 // Load Customer model
 const Customer = require('../../models/Customer')
@@ -117,29 +118,43 @@ router.post('/upgraderole', async (req, res) => {
 //@description receives customer_email and changes to balance (Can be positive or negative), returns error if balance is negative
 //@access Protected (role = admin)
 
-router.post('/transect', async (req, res) => {
-  try {
-    const { customer_email, change } = req.body //data is an obj
+//extract role and customerId from JWT token
+//if role != admin, return error
 
-    if (!customer_email || !change) {
-      throw Error('"customer_email" or "change" cannot be empty')
+router.post('/transect', auth, async (req, res) => {
+  try {
+    const { change } = req.body //data is an obj
+
+    const token = req.header('x-auth-token')
+    const decoded = jwt_decode(token)
+    const decodedstr = JSON.stringify(decoded)
+
+    if (!change) {
+      throw Error('"change" cannot be empty')
+    }
+
+    if (decoded.jwtpayload.role != 'admin') {
+      return res.status(401).send(`Unauthorized: You must be an Admin`)
     }
 
     let cusData = await Customer.findOne({
-      customer_email: customer_email,
+      CustomerId: decoded.jwtpayload.customer_id,
     })
 
     let newValue = cusData.balance + change
 
-    console.log(newValue)
-    console.log(cusData.balance)
+    if (newValue < 0) {
+      return res
+        .status(400)
+        .send(`Transection Failed: New account balance cannot be lower than 0`)
+    }
 
     let doc = await Customer.findOneAndUpdate(
-      { customer_email: customer_email },
+      { CustomerId: decoded.jwtpayload.customer_id },
       { balance: newValue }
     )
 
-    res.status(200).send(`Updated value maybe?`)
+    res.status(200).send(`Transection Successful`)
   } catch (error) {
     res.status(500).send(`Server Error: ${error.message}`)
     return
