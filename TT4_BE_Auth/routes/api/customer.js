@@ -10,6 +10,46 @@ const auth = require('../../middleware/auth')
 const Customer = require('../../models/Customer')
 const { model } = require('mongoose')
 
+//@route POST api/customer/login
+//@description receives email and password, checks if it is in the database, if yes, return JWT Token (JWT Token is required for protected routes/APIs)
+//@access Public
+
+router.post('/login', async (req, res) => {
+  try {
+    const { customer_email, password } = req.body
+    // validate
+    if (!customer_email || !password)
+      return res.status(400).json({ msg: 'Not all fields have been entered.' })
+    const cus = await Customer.findOne({ customer_email: customer_email })
+    if (!cus)
+      return res
+        .status(400)
+        .json({ msg: 'No account with this email has been registered.' })
+
+    const isMatch = password == cus.password ? true : false
+    if (!isMatch) return res.status(400).json({ msg: 'Invalid credentials.' })
+
+    //add role payload
+
+    let jwtpayload = {
+      customer_id: cus.CustomerId,
+      role: cus.role,
+    }
+
+    const token = jwt.sign({ jwtpayload }, process.env.JWT_TOKEN_SECRET)
+    res.json({
+      token,
+      Data: {
+        id: cus.CustomerId,
+        email: cus.customer_email,
+        role: cus.role,
+      },
+    })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
 //@route POST api/customer/createuser               (Create)
 //@description receives customer_name,customer_phone,customer_address,password. Balance is populated as 0 and role is populated as user
 //@access Public
