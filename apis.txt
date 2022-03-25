@@ -1,0 +1,92 @@
+BackEnd Payment/Loans APIS
+Status: deployed
+Address: https://dbs-shawn.herokuapp.com/
+
+/loans
+	/loans/newloan (done)
+	authenticate is normal user
+	Method: POST
+	purpose: create and apply new loan
+
+	/loans/payloan/loanid={id} (done)
+	authenticate is normal user
+	Method: POST
+	purpose: check that the loan is tied to authenticated user. Allow user to pay loan. deduct from user balance
+
+	/loans/checkloans (done)
+    authenticate is admin user
+	see all loans
+	Method: GET
+	purpose: return all loans that the user is currently holding, both approved and unapproved paid and unpaid.
+
+	/loans/approved_loans (done)
+	authenticate is admin user
+	Method: GET
+	purpose: see all loans that are APPROVED
+
+	/loans/unapproved_loans (done)
+	authenticate is admin user
+	Method: GET
+	purpose: see all loans that are UNAPPROVED
+
+	/loans/approve/loanid={id} (done)
+	authenticate is admin user
+	Method: POST
+	purpose: approve loan with id: {id}
+
+/payments
+    /payments/new_payment (done)
+	authenticate is normal user
+	Method: POST
+	purpose: create and make new payment
+
+    /payments (done)
+	authenticate is admin user
+	Method: GET
+	purpose: get all payment transactions
+
+
+
+BackEnd Auth APIS
+
+
+//@route POST api/customer/login
+//@description receives email and password, checks if it is in the database, if yes, return JWT Token (JWT Token is required for protected routes/APIs)
+//@access Public
+ 
+ 
+//@route POST api/customer/createuser               (Create) (Done)
+//@description receives customer_name,customer_phone,customer_address,password and email. Balance is populated as 0 and role is populated as user
+//@access Public
+ 
+ 
+//@route GET api/customer/getcusdetails             (Read) (Done)
+//@description receives customer_email, returns all details about customer
+//@access Protected (role = user or admin)
+ 
+//@route POST api/customer/upgraderole             (Update) (Done)
+//@description receives customer_email, upgrades role to admin 
+//@access Protected (role = admin)
+ 
+//@route POST api/customer/transect               (Update)
+//@description receives customer_email and variable “change” (Can be positive or negative), returns error if balance is negative
+//@access Protected (role = admin)
+ 
+ 
+//@route POST api/customer/deleteUser            (Delete)
+//@description receives customer_email and deletes the record
+//@access Protected (role = user or admin)
+ 
+//Customer.js  Database attributes:
+//CustomerId (String, Required, Unique)
+//customer_email (String, Required, Unique)
+//customer_name (String, Required)
+//customer_phone (String, Required)
+//customer_address (String, Required)
+//balance (Number, Required)
+//password (String, Required)
+//role (String, Required)
+
+
+
+
